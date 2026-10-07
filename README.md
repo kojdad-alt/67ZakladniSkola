@@ -1,0 +1,2 @@
+# 67ZakladniSkola
+školní projekt
