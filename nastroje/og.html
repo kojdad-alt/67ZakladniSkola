@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Předloha obrázku pro sdílení (img/og.png, 1200×630). Vyrábí ji nastroje/obrazky.sh. -->
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>OG obrázek 67. ZŠ</title>
+<style>
+  @font-face { font-family: "Archivo 67"; src: url("../fonty/archivo-cz.woff2") format("woff2"); font-weight: 400 800; font-stretch: 75% 125%; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { background: #f2f4f0; color: #14211e; font-family: "Archivo 67", sans-serif; display: grid; grid-template-rows: 1fr 168px; }
+  .horni { display: flex; align-items: center; gap: 56px; padding: 0 80px; }
+  .horni img { width: 168px; height: 168px; }
+  h1 { margin: 0; font-size: 92px; line-height: 0.95; font-stretch: 125%; font-weight: 800; letter-spacing: -0.02em; }
+  h1 span { display: block; font-size: 64px; letter-spacing: -0.01em; }
+  .sokl { background-color: #1d5a54; color: #f2f4f0; border-top: 10px solid #e2ae38;
+    background-image: linear-gradient(rgb(242 244 240 / .16) 1px, transparent 1px), linear-gradient(90deg, rgb(242 244 240 / .16) 1px, transparent 1px);
+    background-size: 32px 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 80px;
+    font-size: 30px; font-stretch: 85%; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <div class="horni">
+    <img src="../img/favicon.svg" alt="">
+    <h1>67. základní <span>škola Plzeň</span></h1>
+  </div>
+  <div class="sokl"><span>Pavilonová škola z roku 1967</span><span>1.–9. ročník</span></div>
+</body>
+</html>

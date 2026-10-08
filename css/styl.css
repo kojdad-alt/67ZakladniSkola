@@ -1,0 +1,827 @@
+/*
+ * 67. základní škola Plzeň – vlastní vzhled nad Bootstrapem 5.3.8
+ *
+ * Nápad: pavilonová škola z roku 1967. Světlé téma je chodba
+ * (bílá zeď, zelený olejový sokl s obkladem, hořčicové cedulky na dveřích),
+ * tmavé téma je školní tabule. Červená = propiska paní učitelky.
+ * Barvy a písma se mění JEN tady v :root (tokeny), komponenty je jen používají.
+ */
+
+@font-face {
+  font-family: "Archivo 67";
+  src: url("../fonty/archivo-cz.woff2") format("woff2");
+  font-weight: 400 800;
+  font-stretch: 75% 125%;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Playwrite CZ";
+  src: url("../fonty/playwrite-cz.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* ---------- tokeny ---------- */
+
+:root {
+  color-scheme: light;
+
+  --zed: #f2f4f0;          /* bílá zeď chodby */
+  --zed-2: #e4e9e2;        /* o odstín tmavší plocha */
+  --papir: #fbfbf7;        /* list sešitu */
+  --papir-linka: #cddbe4;  /* modrošedé linky sešitu */
+  --okraj: #d9534f;        /* červený okraj sešitu (jen ozdoba) */
+  --inkoust: #14211e;      /* text */
+  --inkoust-2: #4a5752;    /* tlumený text */
+  --linka: #c3ccc4;        /* tenké čáry */
+  --sokl: #1d5a54;         /* olejový nátěr spodní části zdi */
+  --na-soklu: #f2f4f0;     /* text na soklu */
+  --spara: rgb(242 244 240 / 0.16); /* spáry obkladu */
+  --horcice: #e2ae38;      /* cedulky pavilonů */
+  --na-horcici: #14211e;
+  --propiska: #b5361f;     /* červená propiska */
+  --odkaz: #1d5a54;
+  --plan-pavilon: #fbfbf7;
+  --plan-chodba: #e4e9e2;
+
+  --pismo: "Archivo 67", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --rucni: "Playwrite CZ", "Segoe Print", "Bradley Hand", cursive;
+
+  /* typová škála */
+  --t-maly: 0.8125rem;
+  --t-text: 1.0625rem;
+  --t-perex: 1.25rem;
+  --t-h3: 1.25rem;
+  --t-h2: clamp(1.75rem, 1.15rem + 2.2vw, 2.625rem);
+  --t-h1: clamp(2.5rem, 1.2rem + 5.4vw, 5.5rem);
+
+  /* rozestupy */
+  --m1: 0.5rem;
+  --m2: 1rem;
+  --m3: 1.5rem;
+  --m4: 2.5rem;
+  --m5: 4rem;
+  --m6: 6rem;
+
+  /* napojení na Bootstrap */
+  --bs-body-font-family: var(--pismo);
+  --bs-body-font-size: var(--t-text);
+  --bs-body-line-height: 1.6;
+  --bs-body-bg: var(--zed);
+  --bs-body-color: var(--inkoust);
+  --bs-emphasis-color: var(--inkoust);
+  --bs-secondary-color: var(--inkoust-2);
+  --bs-heading-color: var(--inkoust);
+  --bs-border-color: var(--linka);
+  --bs-link-color: var(--odkaz);
+  --bs-link-hover-color: var(--inkoust);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --zed: #15211d;          /* tabule */
+    --zed-2: #1c2b26;
+    --papir: #1a2823;
+    --papir-linka: #2e423b;
+    --okraj: #b4473f;
+    --inkoust: #ecf0e8;      /* křída */
+    --inkoust-2: #afbcb5;
+    --linka: #33463f;
+    --sokl: #21574f;
+    --na-soklu: #ecf0e8;
+    --spara: rgb(236 240 232 / 0.1);
+    --horcice: #e6b54a;
+    --na-horcici: #14211e;
+    --propiska: #ff8a6b;
+    --odkaz: #8cd2c4;
+    --plan-pavilon: #1a2823;
+    --plan-chodba: #22332d;
+  }
+}
+
+/* ---------- základ ---------- */
+
+body {
+  background: var(--zed);
+  color: var(--inkoust);
+  font-family: var(--pismo);
+  font-stretch: 100%;
+  font-variant-numeric: lining-nums;
+}
+
+h1, h2, h3 {
+  font-family: var(--pismo);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  text-wrap: balance;
+  color: var(--inkoust);
+}
+
+h2 {
+  font-size: var(--t-h2);
+  font-stretch: 115%;
+  margin-bottom: var(--m3);
+}
+
+h3 {
+  font-size: var(--t-h3);
+  font-stretch: 110%;
+  font-weight: 750;
+  line-height: 1.2;
+  margin-bottom: var(--m1);
+}
+
+p {
+  max-width: 38em;
+}
+
+a {
+  color: var(--odkaz);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--inkoust);
+  text-decoration-color: var(--horcice);
+  text-decoration-thickness: 3px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--propiska);
+  outline-offset: 3px;
+}
+
+.cisla {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* štítek: úzké verzálky jako na cedulce */
+.stitek {
+  display: block;
+  font-size: var(--t-maly);
+  font-stretch: 75%;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--inkoust-2);
+  margin-bottom: var(--m1);
+}
+
+/* ---------- hlavička ---------- */
+
+.hlavicka {
+  background: var(--zed);
+  border-bottom: 2px solid var(--inkoust);
+  padding-block: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .hlavicka {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+}
+
+.znacka {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--inkoust);
+  text-decoration: none;
+  font-stretch: 110%;
+  font-weight: 800;
+  font-size: 1.125rem;
+  line-height: 1.1;
+}
+
+.znacka:hover {
+  color: var(--inkoust);
+}
+
+.znacka-dlazdice {
+  fill: var(--horcice);
+}
+
+.znacka-cislo {
+  fill: var(--na-horcici);
+}
+
+.znacka small {
+  display: block;
+  font-size: var(--t-maly);
+  font-stretch: 75%;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--inkoust-2);
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu li {
+  white-space: nowrap;
+}
+
+.menu a {
+  display: inline-block;
+  padding-block: 0.375rem;
+  font-size: 0.875rem;
+  font-stretch: 80%;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--inkoust);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+
+.menu a:hover {
+  border-bottom-color: var(--horcice);
+}
+
+/* ---------- úvod ---------- */
+
+.uvod {
+  padding-block: var(--m5);
+}
+
+.uvod h1 {
+  font-size: var(--t-h1);
+  font-stretch: 125%;
+  line-height: 0.98;
+  margin-bottom: var(--m3);
+}
+
+.uvod h1 .cislo-skoly {
+  display: block;
+  font-size: 1.6em;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.perex {
+  font-size: var(--t-perex);
+  line-height: 1.55;
+  max-width: 30em;
+  margin-bottom: var(--m4);
+}
+
+/* tlačítka: Bootstrap .btn s vlastními proměnnými */
+.tlacitko {
+  --bs-btn-padding-x: 1.25rem;
+  --bs-btn-padding-y: 0.75rem;
+  --bs-btn-font-family: var(--pismo);
+  --bs-btn-font-size: 1rem;
+  --bs-btn-font-weight: 700;
+  --bs-btn-border-width: 2px;
+  --bs-btn-border-radius: 4px;
+  --bs-btn-color: var(--zed);
+  --bs-btn-bg: var(--inkoust);
+  --bs-btn-border-color: var(--inkoust);
+  --bs-btn-hover-color: var(--zed);
+  --bs-btn-hover-bg: var(--inkoust);
+  --bs-btn-hover-border-color: var(--inkoust);
+  --bs-btn-active-color: var(--zed);
+  --bs-btn-active-bg: var(--inkoust);
+  --bs-btn-active-border-color: var(--inkoust);
+  font-stretch: 105%;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+}
+
+.tlacitko-obrys {
+  --bs-btn-color: var(--inkoust);
+  --bs-btn-bg: transparent;
+  --bs-btn-hover-color: var(--inkoust);
+  --bs-btn-hover-bg: var(--zed);
+  --bs-btn-active-color: var(--inkoust);
+  --bs-btn-active-bg: var(--zed);
+}
+
+/* při najetí tlačítko „vystoupí“ jako cedulka nad hořčicový stín */
+.tlacitko:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 3px 3px 0 var(--horcice);
+}
+
+.tlacitko:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.tlacitko:focus-visible {
+  box-shadow: none;
+  outline: 3px solid var(--propiska);
+  outline-offset: 3px;
+}
+
+/* ---------- plánek areálu (SVG v úvodu) ---------- */
+
+.plan {
+  margin: 0;
+}
+
+.plan svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plan text {
+  font-family: var(--pismo);
+  fill: var(--inkoust);
+}
+
+.plan a {
+  text-decoration: none;
+}
+
+.plan .budova {
+  fill: var(--plan-pavilon);
+  stroke: var(--inkoust);
+  stroke-width: 2;
+  transition: fill 0.12s ease-out;
+}
+
+.plan .plan-cedulka {
+  fill: var(--horcice);
+}
+
+.plan .pavilon:hover .budova {
+  fill: var(--horcice);
+}
+
+.plan .pavilon:hover text {
+  fill: var(--na-horcici);
+}
+
+.plan .pavilon:hover .plan-cedulka {
+  fill: var(--inkoust);
+}
+
+.plan .pavilon:hover .pismeno {
+  fill: var(--zed);
+}
+
+.plan .pismeno {
+  fill: var(--na-horcici);
+}
+
+.plan .pavilon:focus {
+  outline: none;
+}
+
+.plan .pavilon:focus-visible .budova {
+  stroke: var(--propiska);
+  stroke-width: 4;
+}
+
+.plan .pismeno {
+  font-size: 30px;
+  font-stretch: 125%;
+  font-weight: 800;
+}
+
+.plan .popisek {
+  font-size: 10.5px;
+  font-stretch: 78%;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.plan .chodba {
+  fill: var(--plan-chodba);
+  stroke: var(--inkoust);
+  stroke-width: 1.5;
+}
+
+.plan .draha {
+  fill: none;
+  stroke: var(--sokl);
+  stroke-width: 7;
+}
+
+.plan .travnik {
+  fill: var(--plan-chodba);
+}
+
+.plan .strom {
+  fill: none;
+  stroke: var(--sokl);
+  stroke-width: 2;
+}
+
+.plan .cara {
+  stroke: var(--inkoust);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.plan .sipka {
+  fill: var(--inkoust);
+}
+
+.plan figcaption {
+  margin-top: var(--m2);
+  font-size: var(--t-maly);
+  color: var(--inkoust-2);
+}
+
+/* ---------- sokl s obkladem ---------- */
+
+.sokl {
+  background-color: var(--sokl);
+  background-image:
+    linear-gradient(var(--spara) 1px, transparent 1px),
+    linear-gradient(90deg, var(--spara) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--na-soklu);
+  border-top: 6px solid var(--horcice);
+}
+
+.fakta {
+  margin: 0;
+  padding-block: var(--m4);
+}
+
+.fakta div {
+  padding-block: var(--m2);
+}
+
+.fakta dt {
+  order: 2;
+  font-size: var(--t-maly);
+  font-stretch: 75%;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fakta dd {
+  order: 1;
+  margin: 0;
+  font-size: 2rem;
+  font-stretch: 120%;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.fakta .fakt {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- oddíly ---------- */
+
+.oddil {
+  padding-block: var(--m6);
+  scroll-margin-top: 4.5rem;
+}
+
+.oddil + .oddil {
+  border-top: 2px solid var(--inkoust);
+}
+
+.oddil-uvod {
+  color: var(--inkoust-2);
+  margin-bottom: var(--m4);
+}
+
+/* pavilony: řádky jako cedulky na dveřích */
+.pavilony {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--inkoust);
+}
+
+.pavilon-radek {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: var(--m1) var(--m3);
+  align-items: start;
+  padding-block: var(--m3);
+  border-bottom: 1px solid var(--linka);
+  scroll-margin-top: 5rem;
+}
+
+@media (min-width: 992px) {
+  .pavilon-radek {
+    grid-template-columns: 4.5rem minmax(0, 1fr) 14rem;
+  }
+}
+
+.pavilon-radek:target {
+  background: var(--zed-2);
+  box-shadow: -1rem 0 0 var(--zed-2), 1rem 0 0 var(--zed-2);
+}
+
+.cedulka {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 4px;
+  background: var(--horcice);
+  color: var(--na-horcici);
+  font-size: 2.25rem;
+  font-stretch: 125%;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pavilon-radek p {
+  margin: 0;
+}
+
+.pavilon-meta {
+  grid-column: 2;
+  font-size: var(--t-maly);
+  font-stretch: 80%;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--inkoust-2);
+}
+
+@media (min-width: 992px) {
+  .pavilon-meta {
+    grid-column: 3;
+    padding-top: 0.25rem;
+    text-align: right;
+  }
+}
+
+/* rozvrh zvonění */
+.rozvrh {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--inkoust);
+  --bs-table-border-color: var(--linka);
+  font-variant-numeric: tabular-nums lining-nums;
+  margin: 0;
+}
+
+.rozvrh thead th {
+  font-size: var(--t-maly);
+  font-stretch: 75%;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--inkoust-2);
+  border-bottom: 2px solid var(--inkoust);
+}
+
+.rozvrh tbody th {
+  font-stretch: 120%;
+  font-weight: 800;
+  width: 4.5rem;
+}
+
+.rozvrh td,
+.rozvrh th {
+  padding-block: 0.625rem;
+}
+
+.rozvrh .dlouha {
+  font-weight: 700;
+}
+
+.rozvrh .dlouha span {
+  background: var(--horcice);
+  color: var(--na-horcici);
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+}
+
+.rozvrh .nulta {
+  color: var(--inkoust-2);
+}
+
+.tabulka-obal {
+  overflow-x: auto;
+}
+
+/* seznam „hodnota vpravo“ v bočních sloupcích */
+.udaje {
+  margin: 0;
+}
+
+.udaje div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--m2);
+  padding-block: 0.625rem;
+  border-bottom: 1px solid var(--linka);
+}
+
+.udaje div:first-child {
+  border-top: 2px solid var(--inkoust);
+}
+
+.udaje dt {
+  font-weight: 400;
+}
+
+.udaje dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.poznamka {
+  margin-top: var(--m2);
+  font-size: var(--t-maly);
+  color: var(--inkoust-2);
+}
+
+/* ---------- zápis: stránka linkovaného sešitu ---------- */
+
+.sesit {
+  position: relative;
+  background-color: var(--papir);
+  background-image:
+    linear-gradient(90deg, transparent 3rem, var(--okraj) 3rem, var(--okraj) calc(3rem + 2px), transparent calc(3rem + 2px)),
+    repeating-linear-gradient(transparent 0 calc(2rem - 1px), var(--papir-linka) calc(2rem - 1px) 2rem);
+  background-position: 0 0, 0 -0.5rem;
+  border: 1px solid var(--linka);
+  border-radius: 4px;
+  padding: 2rem 1.25rem 2rem 4rem;
+  line-height: 2rem;
+}
+
+@media (min-width: 768px) {
+  .sesit {
+    background-image:
+      linear-gradient(90deg, transparent 5rem, var(--okraj) 5rem, var(--okraj) calc(5rem + 2px), transparent calc(5rem + 2px)),
+      repeating-linear-gradient(transparent 0 calc(2rem - 1px), var(--papir-linka) calc(2rem - 1px) 2rem);
+    padding: 4rem 3rem 4rem 6.5rem;
+  }
+}
+
+.sesit h2 {
+  line-height: 2rem;
+  margin-bottom: 0;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .sesit h2 {
+    line-height: 4rem;
+    padding-bottom: 0;
+  }
+}
+
+.sesit .stitek {
+  line-height: 2rem;
+  margin: 0;
+}
+
+.sesit p,
+.sesit dl {
+  margin: 0 0 2rem;
+}
+
+.sesit dl div {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .sesit dl div {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: var(--m3);
+  }
+}
+
+.sesit dt {
+  font-weight: 700;
+}
+
+.sesit dd {
+  margin: 0;
+}
+
+.vzkaz {
+  margin: 0;
+  font-family: var(--rucni);
+  font-size: 1.5rem;
+  line-height: 4rem;
+  color: var(--propiska);
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+
+@media (min-width: 992px) {
+  .vzkaz {
+    font-size: 1.875rem;
+  }
+}
+
+/* ---------- školní rok ---------- */
+
+.kalendar {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--inkoust);
+}
+
+.kalendar li {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.125rem var(--m3);
+  padding-block: 0.875rem;
+  border-bottom: 1px solid var(--linka);
+}
+
+@media (min-width: 768px) {
+  .kalendar li {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+}
+
+.kalendar time {
+  font-stretch: 85%;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.kalendar .prazdniny time {
+  color: var(--propiska);
+}
+
+/* ---------- kontakt ---------- */
+
+.adresa {
+  font-style: normal;
+  font-size: var(--t-perex);
+  line-height: 1.5;
+}
+
+.adresa strong {
+  display: block;
+  font-stretch: 110%;
+  font-weight: 800;
+}
+
+/* ---------- patička na soklu ---------- */
+
+.pata {
+  padding-block: var(--m4);
+  font-size: var(--t-maly);
+}
+
+.pata p {
+  margin: 0;
+  max-width: none;
+}
+
+.pata a {
+  color: var(--na-soklu);
+}
+
+.pata a:hover {
+  color: var(--na-soklu);
+}
+
+.pata :focus-visible,
+.sokl :focus-visible {
+  outline-color: var(--horcice);
+}
+
+/* ---------- drobečková navigace (404) ---------- */
+
+.drobecky {
+  --bs-breadcrumb-divider-color: var(--inkoust-2);
+  --bs-breadcrumb-item-active-color: var(--inkoust-2);
+  font-size: var(--t-maly);
+  margin-bottom: var(--m3);
+}
+
+/* ---------- omezený pohyb ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .tlacitko,
+  .plan .budova {
+    transition: none;
+  }
+
+  .tlacitko:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,6 @@
+# Na GitHub Pages projektu (…github.io/67ZakladniSkola/) roboti čtou robots.txt jen z kořene domény.
+# Tenhle soubor začne platit, až bude web na vlastní doméně.
+User-agent: *
+Allow: /
+
+Sitemap: https://kojdad-alt.github.io/67ZakladniSkola/sitemap.xml

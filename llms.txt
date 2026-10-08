@@ -1,0 +1,13 @@
+# 67. základní škola Plzeň
+
+> Pavilonová základní škola z roku 1967 na severu Plzně pro 1.–9. ročník: 412 žáků, 18 tříd, 34 pedagogů.
+> Školní projekt: škola, lidé i kontakty jsou vymyšlené.
+
+Web má jednu stránku s těmito oddíly:
+
+- [Pavilony](https://kojdad-alt.github.io/67ZakladniSkola/#pavilony): A první stupeň, B druhý stupeň, C tělocvičny, D jídelna a družina, E dílny.
+- [Rozvrh zvonění](https://kojdad-alt.github.io/67ZakladniSkola/#zvoneni): hodiny po 45 minutách, 1. hodina 8:00–8:45, velká přestávka po 2. hodině (20 min), družina 6:30–7:40 a 11:40–17:00.
+- [Školní jídelna](https://kojdad-alt.github.io/67ZakladniSkola/#jidelna): oběd 38 / 41 / 44 Kč podle věku strávníka, odhlášky do 13:00 předchozího pracovního dne.
+- [Zápis do 1. třídy 2027](https://kojdad-alt.github.io/67ZakladniSkola/#zapis): středa 14. 4. 2027 14:00–18:00 a čtvrtek 15. 4. 2027 14:00–17:00 v pavilonu A, s sebou rodný list dítěte a občanský průkaz zákonného zástupce.
+- [Školní rok 2026/27](https://kojdad-alt.github.io/67ZakladniSkola/#skolni-rok): termíny prázdnin pro Plzeň-město.
+- [Kontakt](https://kojdad-alt.github.io/67ZakladniSkola/#kontakt): Pavilonová 67, 323 00 Plzeň, tel. 377 067 067, kancelar@67zs.cz.
