@@ -5,13 +5,9 @@ Jen HTML, CSS a Bootstrap 5.3.8, žádný JavaScript.
 
 ## Jak to otevřít
 
-Dvojklikem na `index.html`, nebo přes místní server, který se chová jako GitHub Pages:
+Web běží na GitHub Pages: **<https://kojdad-alt.github.io/67ZakladniSkola/>**
 
-```bash
-python3 nastroje/server.py
-```
-
-a pak <http://localhost:8067/67ZakladniSkola/>.
+Po každém pushi do `main` se do pár minut aktualizuje sám.
 
 ## Před commitem
 
