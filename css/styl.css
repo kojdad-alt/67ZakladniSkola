@@ -607,8 +607,10 @@ a:hover {
   border-radius: 3px;
 }
 
+/* nultá hodina tlumeně; Bootstrap barví přímo buňky přes --bs-table-color,
+   samotné color na řádku by se do nich nepropsalo */
 .rozvrh .nulta {
-  color: var(--inkoust-2);
+  --bs-table-color: var(--inkoust-2);
 }
 
 .tabulka-obal {
