@@ -55,7 +55,7 @@ Výkon místně snižuje jen chybějící komprese; GitHub Pages posílá gzip.
 
 Nápad: **pavilonová škola z roku 1967**. Stránka je jako procházka školou:
 
-- **Světlé téma = chodba:** bílá zeď `--zed`, zelený olejový **sokl** s obkladem `--sokl` (pruh pod úvodem
+- **Světlé téma = chodba:** bílá zeď `--zed`, zelený olejový **sokl** s obkladem `--sokl` (hlavička, pruh pod úvodem
   a patička), **hořčicové cedulky** pavilonů `--horcice`, text inkoustem `--inkoust`.
 - **Tmavé téma = školní tabule** (`prefers-color-scheme: dark`): stejné tokeny, jiné hodnoty; křídově bílý text.
 - **Červená = propiska paní učitelky** (`--propiska`): prázdniny v kalendáři, vzkaz u zápisu, rámeček fokusu.
