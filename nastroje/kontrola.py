@@ -6,10 +6,12 @@ Hlídá zadání (jen HTML + CSS + Bootstrap, žádný JavaScript), SEO seznam
 podle kterých web vypadá „vibecoded“ (viz AGENTS.md).
 Chyba = exit 1. Varování jen upozorní.
 """
+import datetime
 import html.parser
 import json
 import os
 import re
+import subprocess
 import sys
 from urllib.parse import urlparse
 
@@ -281,6 +283,37 @@ def zkontroluj_adresu():
             chyba("llms.txt", f"odkaz {url} vede na neexistující id v index.html")
 
 
+def zkontroluj_datum_zmeny():
+    """<lastmod> v sitemap.xml a dateModified stránky v JSON-LD mají být stejné a ne starší než poslední
+    změna index.html (Google podle lastmod pozná, kdy se má na stránku znovu podívat)."""
+    lastmod = re.findall(r"<lastmod>\s*([\d-]+)\s*</lastmod>", open(os.path.join(KOREN, "sitemap.xml"), encoding="utf-8").read())
+    index = open(os.path.join(KOREN, "index.html"), encoding="utf-8").read()
+    upraveno = re.findall(r'"dateModified"\s*:\s*"([\d-]+)"', index)
+    if not lastmod:
+        chyba("sitemap.xml", "chybí <lastmod> (datum poslední změny úvodní stránky)")
+        return
+    if not upraveno:
+        chyba("index.html", "chybí dateModified u WebPage ve strukturovaných datech")
+        return
+    if lastmod[0] != upraveno[0]:
+        chyba("sitemap.xml", f"<lastmod>{lastmod[0]}</lastmod> nesedí s dateModified {upraveno[0]} v index.html")
+        return
+
+    # bez gitu (třeba stažený zip) se stáří nekontroluje
+    try:
+        def git(*argumenty):
+            return subprocess.run(["git", "-C", KOREN, *argumenty], capture_output=True, text=True,
+                                  check=True).stdout.strip()
+        if git("status", "--porcelain", "--", "index.html"):
+            posledni = datetime.date.today().isoformat()  # změna, která ještě není v commitu
+        else:
+            posledni = git("log", "-1", "--format=%cs", "--", "index.html")
+    except (OSError, subprocess.CalledProcessError):
+        return
+    if posledni and lastmod[0] < posledni:
+        pozor("sitemap.xml", f"index.html se změnil {posledni}, ale <lastmod> a dateModified jsou {lastmod[0]}")
+
+
 # kontrast barevných tokenů z css/styl.css (WCAG 2.x): text aspoň 4,5 : 1, rámeček fokusu aspoň 3 : 1
 KONTRAST = [
     # (barva, pozadí, minimum, kde se to potkává)
@@ -367,6 +400,7 @@ def main():
 
     zkontroluj_kontrast()
     zkontroluj_adresu()
+    zkontroluj_datum_zmeny()
 
     sitemap = open(os.path.join(KOREN, "sitemap.xml"), encoding="utf-8").read()
     if "<loc>" not in sitemap:
