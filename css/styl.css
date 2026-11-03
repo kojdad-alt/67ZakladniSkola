@@ -160,6 +160,21 @@ a:hover {
   font-variant-numeric: tabular-nums lining-nums;
 }
 
+/* „Přeskočit na obsah“: Bootstrap ho jen odkryje (malý odkaz, který odsune hlavičku),
+   při fokusu klávesnicí je z něj hořčicová cedulka nad hlavičkou */
+.preskocit:focus {
+  position: absolute;
+  top: var(--m1);
+  left: var(--m1);
+  z-index: 30;
+  padding: var(--m1) var(--m2);
+  border-radius: 4px;
+  background: var(--horcice);
+  color: var(--na-horcici);
+  font-weight: 700;
+  text-decoration: none;
+}
+
 /* štítek: úzké verzálky jako na cedulce */
 .stitek {
   display: block;
