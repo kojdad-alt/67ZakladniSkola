@@ -374,19 +374,24 @@ a:hover {
   fill: var(--horcice);
 }
 
-.plan .pavilon:hover .budova {
+/* najetí myší i fokus klávesnicí pavilon stejně „rozsvítí“ */
+.plan .pavilon:hover .budova,
+.plan .pavilon:focus-visible .budova {
   fill: var(--horcice);
 }
 
-.plan .pavilon:hover text {
+.plan .pavilon:hover text,
+.plan .pavilon:focus-visible text {
   fill: var(--na-horcici);
 }
 
-.plan .pavilon:hover .plan-cedulka {
+.plan .pavilon:hover .plan-cedulka,
+.plan .pavilon:focus-visible .plan-cedulka {
   fill: var(--inkoust);
 }
 
-.plan .pavilon:hover .pismeno {
+.plan .pavilon:hover .pismeno,
+.plan .pavilon:focus-visible .pismeno {
   fill: var(--zed);
 }
 
