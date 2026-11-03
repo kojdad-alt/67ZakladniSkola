@@ -62,6 +62,8 @@ Nápad: **pavilonová škola z roku 1967**. Stránka je jako procházka školou:
   uvnitř `.sesit` drž v násobcích `2rem`, jinak text ujede z linek.
 - **Plánek areálu** v úvodu je ručně kreslené SVG; pavilony jsou odkazy na řádky v oddílu Pavilony
   (zvýrazní je `:target`, bez JavaScriptu).
+- **Tisk** (`@media print` na konci `styl.css`): tmavé na bílé (prohlížeč pozadí netiskne), bez menu
+  a tlačítek, každý oddíl na vlastní stránce, aby si rodiče mohli vytisknout jen zápis nebo prázdniny.
 
 Písma:
 
