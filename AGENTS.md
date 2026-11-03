@@ -22,6 +22,7 @@ vendor/bootstrap-5.3.8/bootstrap.min.css   Bootstrap bez source map (neupravovat
 fonty/                písma Archivo a Playwrite CZ, oříznutá na češtinu (+ licence OFL)
 img/                  favicon.svg, favicon-32.png, apple-touch-icon.png, logo-512.png, og.png
 robots.txt, sitemap.xml, llms.txt
+.nojekyll             GitHub Pages bez Jekyllu (jinak z AGENTS.md a CLAUDE.md udělá veřejné stránky)
 nastroje/server.py    místní náhled, chová se jako GitHub Pages
 nastroje/kontrola.py  kontrola před commitem
 nastroje/obrazky.sh   znovu vyrobí PNG obrázky (og.png, ikony) přes Google Chrome
