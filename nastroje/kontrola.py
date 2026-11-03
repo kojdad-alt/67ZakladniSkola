@@ -223,6 +223,65 @@ def zkontroluj_zakazane(jmeno, zdroj):
             chyba(jmeno, f"řádek {radek}: {popis}")
 
 
+# kontrast barevných tokenů z css/styl.css (WCAG 2.x): text aspoň 4,5 : 1, rámeček fokusu aspoň 3 : 1
+KONTRAST = [
+    # (barva, pozadí, minimum, kde se to potkává)
+    ("inkoust", "zed", 4.5, "text na zdi"),
+    ("inkoust-2", "zed", 4.5, "tlumený text, štítky, popisky"),
+    ("inkoust", "zed-2", 4.5, "řádek pavilonu zvýrazněný přes :target"),
+    ("inkoust-2", "zed-2", 4.5, "meta řádku pavilonu při :target"),
+    ("inkoust", "papir", 4.5, "text v sešitu se zápisem"),
+    ("inkoust-2", "papir", 4.5, "štítek v sešitu"),
+    ("inkoust", "plan-pavilon", 4.5, "popisky v plánku"),
+    ("propiska", "papir", 4.5, "vzkaz u zápisu"),
+    ("propiska", "zed", 4.5, "prázdniny v kalendáři, rámeček fokusu"),
+    ("odkaz", "zed", 4.5, "odkazy"),
+    ("na-soklu", "sokl", 4.5, "čísla školy a patička na soklu"),
+    ("na-horcici", "horcice", 4.5, "cedulky pavilonů, velká přestávka"),
+    ("zed", "inkoust", 4.5, "tlačítka"),
+    ("horcice", "sokl", 3.0, "rámeček fokusu na soklu"),
+]
+
+
+def jas(barva):
+    h = barva.lstrip("#")
+    if len(h) == 3:
+        h = "".join(c * 2 for c in h)
+    slozky = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+    slozky = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in slozky]
+    return 0.2126 * slozky[0] + 0.7152 * slozky[1] + 0.0722 * slozky[2]
+
+
+def kontrast(a, b):
+    sv, tm = sorted((jas(a), jas(b)), reverse=True)
+    return (sv + 0.05) / (tm + 0.05)
+
+
+def zkontroluj_kontrast():
+    jmeno = "css/styl.css"
+    css = open(os.path.join(KOREN, jmeno), encoding="utf-8").read()
+
+    def tokeny(zacatek):
+        if not zacatek:
+            return {}
+        blok = css[zacatek.end():css.index("}", zacatek.end())]
+        return dict(re.findall(r"--([\w-]+)\s*:\s*(#[0-9a-fA-F]{3}(?:[0-9a-fA-F]{3})?)\b", blok))
+
+    svetle = tokeny(re.search(r"^:root\s*\{", css, re.M))
+    tmave = {**svetle, **tokeny(re.search(r"prefers-color-scheme:\s*dark\)\s*\{\s*:root\s*\{", css))}
+    for tema, barvy in (("světlé", svetle), ("tmavé", tmave)):
+        for popredi, pozadi, minimum, kde in KONTRAST:
+            if popredi not in barvy or pozadi not in barvy:
+                chyba(jmeno, f"{tema} téma: chybí token --{popredi} nebo --{pozadi} (#hex v :root)")
+                continue
+            k = kontrast(barvy[popredi], barvy[pozadi])
+            if k < minimum:
+                ma = f"{k:.2f}".replace(".", ",")
+                ma_mit = f"{minimum:g}".replace(".", ",")
+                chyba(jmeno, f"{tema} téma: --{popredi} na --{pozadi} má kontrast {ma} : 1, "
+                             f"potřeba aspoň {ma_mit} : 1 ({kde})")
+
+
 def main():
     for soubor in POVINNE:
         if not os.path.exists(os.path.join(KOREN, soubor)):
@@ -247,6 +306,8 @@ def main():
                 chyba(cesta, "source mapa nemá být na produkci")
             if s.endswith((".css", ".js")) and "sourceMappingURL" in open(os.path.join(slozka, s), encoding="utf-8", errors="ignore").read():
                 chyba(cesta, "odkaz na source mapu (sourceMappingURL)")
+
+    zkontroluj_kontrast()
 
     sitemap = open(os.path.join(KOREN, "sitemap.xml"), encoding="utf-8").read()
     if "<loc>" not in sitemap:

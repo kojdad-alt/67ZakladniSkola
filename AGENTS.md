@@ -87,7 +87,8 @@ Kontroluje to i `nastroje/kontrola.py`.
 5. Štítek („badge“) nad hlavním nadpisem.
 6. Knihovny ikon (Lucide apod.). Když je ikona potřeba, nakreslit vlastní SVG.
 7. Animace při scrollování, záře za kurzorem, tlačítka, která při najetí jen zprůhlední.
-8. Tmavý režim s nízkým kontrastem. Kontrast textu drž aspoň 4,5 : 1 (teď 6–15 : 1).
+8. Tmavý režim s nízkým kontrastem. Kontrast textu drž aspoň 4,5 : 1 (teď 5,4–16 : 1), rámeček fokusu aspoň 3 : 1.
+   Kontrola počítá kontrast tokenů ve světlém i tmavém tématu; novou dvojici barev přidej do `KONTRAST` v `kontrola.py`.
 9. Nekonzistentní mezery: používat jen `--m1` až `--m6` a Bootstrap `g-*`/`gap-*`.
 10. Dlouhá pomlčka „—“ (em dash). V češtině se píše „–“ (en dash) s mezerami, rozsahy bez mezer: `1.–5. ročník`.
 11. Obecné reklamní fráze („moderní škola s rodinnou atmosférou“). Psát konkrétně: čísla, časy, místa.
