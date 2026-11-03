@@ -100,6 +100,8 @@ Kontroluje to i `nastroje/kontrola.py`.
 - `canonical`, Open Graph (`og:*`, obrázek `img/og.png` 1200×630), favicon (SVG + PNG + apple-touch-icon).
 - Strukturovaná data JSON-LD: `ElementarySchool`, `WebSite`, `WebPage` s drobečky, `Event` (zápis).
 - Vlastní `404.html` s drobečkovou navigací, `robots.txt`, `sitemap.xml`, `llms.txt`.
+- Po změně `index.html` dát do `<lastmod>` v `sitemap.xml` a do `dateModified` (WebPage v JSON-LD) dnešní datum.
+  Obě data musí být stejná, kontrola upozorní, když jsou starší než poslední změna `index.html`.
 - Žádné source mapy, žádný JavaScript, žádné cizí zdroje (písma i Bootstrap jsou v repu).
 - Žádný zástupný text (lorem ipsum, „Text sem“).
 
