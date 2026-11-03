@@ -14,7 +14,7 @@ import sys
 
 KOREN = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STRANKY = ["index.html", "404.html"]
-POVINNE = ["index.html", "404.html", "robots.txt", "sitemap.xml", "llms.txt",
+POVINNE = ["index.html", "404.html", "robots.txt", "sitemap.xml", "llms.txt", ".nojekyll",
            "img/og.png", "img/favicon.svg", "img/favicon-32.png", "img/apple-touch-icon.png"]
 PREFIX = "/67ZakladniSkola/"  # cesta webu na GitHub Pages
 
