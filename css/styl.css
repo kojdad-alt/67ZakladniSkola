@@ -827,3 +827,120 @@ a:hover {
     transform: none;
   }
 }
+
+/* ---------- tisk ---------- */
+/* Rodiče si tisknou hlavně zápis, zvonění a prázdniny. Prohlížeč netiskne pozadí,
+   takže světlý text na soklu by na papíře zmizel: v tisku je vše tmavé na bílé,
+   bez menu a tlačítek, oddíly se netrhají přes dvě stránky. */
+
+@media print {
+  @page {
+    margin: 1.5cm;
+  }
+
+  :root {
+    color-scheme: light;
+
+    --zed: #fff;
+    --zed-2: #fff;
+    --papir: #fff;
+    --inkoust: #000;
+    --inkoust-2: #333;
+    --linka: #999;
+    --sokl: #1d5a54;
+    --na-soklu: #000;
+    --horcice: #e2ae38;
+    --na-horcici: #000;
+    --propiska: #b5361f;
+    --odkaz: #000;
+    --plan-pavilon: #fff;
+    --plan-chodba: #eee;
+  }
+
+  /* menší rem = víc textu na stránku; linky sešitu jsou v rem, takže sedí dál */
+  html {
+    font-size: 13px;
+  }
+
+  .hlavicka nav,
+  .tlacitko,
+  .plan figcaption,
+  .pata a[href="#nahoru"] {
+    display: none;
+  }
+
+  .hlavicka {
+    position: static;
+  }
+
+  .uvod {
+    padding-block: var(--m2) var(--m3);
+  }
+
+  .uvod h1 {
+    font-size: 2.5rem;
+  }
+
+  .perex {
+    margin-bottom: 0;
+  }
+
+  .plan svg {
+    max-width: 12cm;
+  }
+
+  .sokl {
+    background: none;
+    border-top: 2px solid var(--inkoust);
+  }
+
+  /* šest čísel v jednom řádku, ať se vejdou na první stránku k plánku */
+  .fakta {
+    padding-block: var(--m2);
+  }
+
+  .fakta > .col {
+    flex: 0 0 auto;
+    width: 16.666%;
+  }
+
+  .fakta dd {
+    font-size: 1.5rem;
+  }
+
+  .oddil {
+    padding-block: var(--m3);
+  }
+
+  .cedulka {
+    border: 2px solid var(--inkoust);
+  }
+
+  .sesit {
+    background: none;
+    padding: var(--m3);
+  }
+
+  h2,
+  h3,
+  .oddil-uvod {
+    break-after: avoid;
+  }
+
+  /* krátké oddíly celé na jedné stránce; delší než stránka se rozdělí normálně */
+  .oddil,
+  .fakta,
+  .plan,
+  .pavilon-radek,
+  .tabulka-obal,
+  .udaje,
+  .sesit,
+  .kalendar li,
+  .adresa {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
