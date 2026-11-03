@@ -34,6 +34,7 @@ class Rozbor(html.parser.HTMLParser):
         super().__init__(convert_charrefs=True)
         self.tagy = []        # (tag, atributy)
         self.idcka = set()
+        self.duplicitni_id = []
         self.zasobnik = []
         self.titulek = ""
         self.nadpisy = []     # (úroveň, text)
@@ -47,6 +48,8 @@ class Rozbor(html.parser.HTMLParser):
         a = dict(attrs)
         self.tagy.append((tag, a))
         if "id" in a:
+            if a["id"] in self.idcka:
+                self.duplicitni_id.append(a["id"])
             self.idcka.add(a["id"])
         if tag == "title" and not self.titulek:  # <title> v SVG se nepočítá
             self._v_title = not any(t == "svg" for t, _ in self.tagy)
@@ -138,6 +141,17 @@ def zkontroluj_stranku(jmeno, titulky):
 
     if not any(t == "link" and "icon" in (a.get("rel") or "") for t, a in r.tagy):
         chyba(jmeno, "chybí favicon")
+
+    # přístupnost: id jen jednou, aria-labelledby/describedby vedou na existující id, SVG má popis
+    for i in sorted(set(r.duplicitni_id)):
+        chyba(jmeno, f'id="{i}" je na stránce víckrát (odkazy #{i} a aria-labelledby pak míří jen na první)')
+    for tag, a in r.tagy:
+        for atr in ("aria-labelledby", "aria-describedby", "for"):
+            for i in (a.get(atr) or "").split():
+                if i not in r.idcka:
+                    chyba(jmeno, f'<{tag} {atr}="{a[atr]}">: id „{i}“ na stránce není')
+        if tag == "svg" and a.get("aria-hidden") != "true" and not (a.get("aria-labelledby") or a.get("aria-label")):
+            chyba(jmeno, "<svg> bez popisu: buď aria-hidden=\"true\" (ozdoba), nebo aria-labelledby na <title> a <desc>")
 
     for tag, a in r.tagy:
         if tag == "img" and "alt" not in a:
