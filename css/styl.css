@@ -189,9 +189,15 @@ a:hover {
 
 /* ---------- hlavička ---------- */
 
+/* hlavička je natřená jako sokl (stejný obklad), aby nesplývala se zdí */
 .hlavicka {
-  background: var(--zed);
-  border-bottom: 2px solid var(--inkoust);
+  background-color: var(--sokl);
+  background-image:
+    linear-gradient(var(--spara) 1px, transparent 1px),
+    linear-gradient(90deg, var(--spara) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--na-soklu);
+  border-bottom: 6px solid var(--horcice);
   padding-block: 0.75rem;
 }
 
@@ -207,7 +213,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  color: var(--inkoust);
+  color: var(--na-soklu);
   text-decoration: none;
   font-stretch: 110%;
   font-weight: 800;
@@ -216,7 +222,7 @@ a:hover {
 }
 
 .znacka:hover {
-  color: var(--inkoust);
+  color: var(--na-soklu);
 }
 
 .znacka-dlazdice {
@@ -234,7 +240,7 @@ a:hover {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--inkoust-2);
+  color: var(--na-soklu);
 }
 
 .menu {
@@ -258,7 +264,7 @@ a:hover {
   font-weight: 650;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--inkoust);
+  color: var(--na-soklu);
   text-decoration: none;
   border-bottom: 3px solid transparent;
 }
@@ -821,6 +827,7 @@ a:hover {
   color: var(--na-soklu);
 }
 
+.hlavicka :focus-visible,
 .pata :focus-visible,
 .sokl :focus-visible {
   outline-color: var(--horcice);
@@ -891,6 +898,8 @@ a:hover {
 
   .hlavicka {
     position: static;
+    background: none;
+    border-bottom: 2px solid var(--inkoust);
   }
 
   .uvod {

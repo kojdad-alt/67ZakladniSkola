@@ -327,10 +327,10 @@ KONTRAST = [
     ("propiska", "papir", 4.5, "vzkaz u zápisu"),
     ("propiska", "zed", 4.5, "prázdniny v kalendáři, rámeček fokusu"),
     ("odkaz", "zed", 4.5, "odkazy"),
-    ("na-soklu", "sokl", 4.5, "čísla školy a patička na soklu"),
+    ("na-soklu", "sokl", 4.5, "hlavička, čísla školy a patička na soklu"),
     ("na-horcici", "horcice", 4.5, "cedulky pavilonů, velká přestávka"),
     ("zed", "inkoust", 4.5, "tlačítka"),
-    ("horcice", "sokl", 3.0, "rámeček fokusu na soklu"),
+    ("horcice", "sokl", 3.0, "rámeček fokusu na soklu (hlavička, patička), podtržení menu"),
 ]
 
 
