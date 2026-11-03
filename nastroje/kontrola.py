@@ -11,6 +11,7 @@ import json
 import os
 import re
 import sys
+from urllib.parse import urlparse
 
 KOREN = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STRANKY = ["index.html", "404.html"]
@@ -223,6 +224,61 @@ def zkontroluj_zakazane(jmeno, zdroj):
             chyba(jmeno, f"řádek {radek}: {popis}")
 
 
+def zkontroluj_adresu():
+    """Adresa webu je na víc místech (AGENTS.md, „Adresa webu“). Všude musí začínat stejně jako canonical,
+    aby se při přechodu na vlastní doménu nic nezapomnělo. Odkazy z llms.txt musí vést na existující oddíl."""
+    index = open(os.path.join(KOREN, "index.html"), encoding="utf-8").read()
+    m = re.search(r'<link rel="canonical" href="([^"]+)"', index)
+    if not m:
+        return  # chybějící canonical hlásí už zkontroluj_stranku
+    adresa = m.group(1)
+    if not adresa.endswith("/"):
+        chyba("index.html", f"canonical {adresa} má končit lomítkem")
+    if urlparse(adresa).path != PREFIX:
+        chyba("nastroje/kontrola.py", f"PREFIX {PREFIX} neodpovídá cestě v canonical {adresa} "
+                                      "(přepsat i 404.html a nastroje/server.py)")
+
+    nalezene = [("index.html", u) for u in re.findall(r'<meta property="og:(?:url|image)" content="([^"]+)"', index)]
+
+    def projdi(uzel):
+        if isinstance(uzel, dict):
+            for klic, hodnota in uzel.items():
+                if klic in ("@id", "url", "logo", "image", "item") and isinstance(hodnota, str):
+                    nalezene.append(("index.html (JSON-LD)", hodnota))
+                else:
+                    projdi(hodnota)
+        elif isinstance(uzel, list):
+            for hodnota in uzel:
+                projdi(hodnota)
+
+    for blok in re.findall(r'<script type="application/ld\+json">(.*?)</script>', index, re.S):
+        try:
+            projdi(json.loads(blok))
+        except json.JSONDecodeError:
+            pass  # neplatný JSON hlásí zkontroluj_stranku
+
+    def precti(soubor):
+        return open(os.path.join(KOREN, soubor), encoding="utf-8").read()
+
+    lokace = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", precti("sitemap.xml"))
+    nalezene += [("sitemap.xml", u) for u in lokace]
+    nalezene += [("robots.txt", u) for u in re.findall(r"^Sitemap:\s*(\S+)", precti("robots.txt"), re.M)]
+    llms = re.findall(r"\]\((https?://[^)\s]+)\)", precti("llms.txt"))
+    nalezene += [("llms.txt", u) for u in llms]
+
+    for soubor, url in nalezene:
+        if not url.startswith(adresa):
+            chyba(soubor, f"adresa {url} nezačíná na {adresa} (canonical v index.html)")
+    if adresa not in lokace:
+        chyba("sitemap.xml", f"chybí <loc>{adresa}</loc> (canonical úvodní stránky)")
+
+    idcka = set(re.findall(r'\bid="([^"]+)"', index))
+    for url in llms:
+        kotva = url.split("#", 1)[1] if "#" in url else ""
+        if kotva and kotva not in idcka:
+            chyba("llms.txt", f"odkaz {url} vede na neexistující id v index.html")
+
+
 # kontrast barevných tokenů z css/styl.css (WCAG 2.x): text aspoň 4,5 : 1, rámeček fokusu aspoň 3 : 1
 KONTRAST = [
     # (barva, pozadí, minimum, kde se to potkává)
@@ -308,6 +364,7 @@ def main():
                 chyba(cesta, "odkaz na source mapu (sourceMappingURL)")
 
     zkontroluj_kontrast()
+    zkontroluj_adresu()
 
     sitemap = open(os.path.join(KOREN, "sitemap.xml"), encoding="utf-8").read()
     if "<loc>" not in sitemap:

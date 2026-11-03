@@ -108,7 +108,9 @@ Kontroluje to i `nastroje/kontrola.py`.
 Všude je `https://kojdad-alt.github.io/67ZakladniSkola/`. GitHub Pages u soukromého repa potřebuje placený
 účet nebo veřejné repo. Při změně adresy (vlastní doména) přepsat:
 `index.html` (canonical, og:url, og:image, JSON-LD), `sitemap.xml`, `robots.txt`, `llms.txt`,
-a v `404.html` a `nastroje/server.py` předponu `/67ZakladniSkola/`.
+a v `404.html`, `nastroje/server.py` a `nastroje/kontrola.py` (`PREFIX`) předponu `/67ZakladniSkola/`.
+Kontrola hlásí každou adresu v `og:*`, JSON-LD, `sitemap.xml`, `robots.txt` a `llms.txt`, která nezačíná
+stejně jako canonical, a odkazy z `llms.txt` na neexistující oddíl.
 `robots.txt` funguje jen v kořeni domény, tedy až s vlastní doménou.
 
 ## Česká typografie
