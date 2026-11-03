@@ -151,6 +151,8 @@ def zkontroluj_stranku(jmeno, titulky):
             for i in (a.get(atr) or "").split():
                 if i not in r.idcka:
                     chyba(jmeno, f'<{tag} {atr}="{a[atr]}">: id „{i}“ na stránce není')
+        if tag == "svg" and "focusable" in a:
+            chyba(jmeno, '<svg focusable> W3C validátor odmítá (zbytek pro Internet Explorer), stačí aria-hidden="true"')
         if tag == "svg" and a.get("aria-hidden") != "true" and not (a.get("aria-labelledby") or a.get("aria-label")):
             chyba(jmeno, "<svg> bez popisu: buď aria-hidden=\"true\" (ozdoba), nebo aria-labelledby na <title> a <desc>")
 
