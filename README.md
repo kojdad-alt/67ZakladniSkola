@@ -31,6 +31,9 @@ Bez Pythonu jde otevřít i `index.html` dvojklikem, jen nefunguje stránka 404.
 | `index.html` | celá stránka |
 | `css/styl.css` | všechen vlastní vzhled; barvy a písma jen v `:root` nahoře |
 | `404.html` | stránka „nenalezeno“ |
+| `robots.txt` | pravidla pro roboty |
+| `sitemap.xml` | mapa webu |
+| `llms.txt` | shrnutí stránky pro jazykové modely |
 | `nastroje/kontrola.py` | kontrola před commitem |
 | `nastroje/server.py` | místní náhled |
 | `AGENTS.md` | podrobná pravidla, vzhled, typografie, zdroje obsahu |
