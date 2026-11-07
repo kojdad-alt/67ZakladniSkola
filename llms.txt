@@ -11,3 +11,5 @@ Web má jednu stránku s těmito oddíly:
 - [Zápis do 1. třídy 2027](https://kojdad-alt.github.io/67ZakladniSkola/#zapis): středa 14. 4. 2027 14:00–18:00 a čtvrtek 15. 4. 2027 14:00–17:00 v pavilonu A, s sebou rodný list dítěte a občanský průkaz zákonného zástupce.
 - [Školní rok 2026/27](https://kojdad-alt.github.io/67ZakladniSkola/#skolni-rok): termíny prázdnin pro Plzeň-město.
 - [Kontakt](https://kojdad-alt.github.io/67ZakladniSkola/#kontakt): Pavilonová 67, 323 00 Plzeň, tel. 377 067 067, kancelar@67zs.cz.
+
+Když adresa neexistuje, návštěvník uvidí stránku nenalezeno s odkazy na úvod a na oddíly výše.
