@@ -11,6 +11,8 @@ Po každém pushi do `main` se do pár minut aktualizuje sám.
 
 Neexistující adresa ukáže stránku `404.html`.
 
+Místní náhled poslouchá na portu 8067.
+
 ## Spuštění u sebe
 
 Stačí Git a Python 3 (nic dalšího se neinstaluje):
