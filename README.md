@@ -9,6 +9,8 @@ Web běží na GitHub Pages: **<https://kojdad-alt.github.io/67ZakladniSkola/>**
 
 Po každém pushi do `main` se do pár minut aktualizuje sám.
 
+Neexistující adresa ukáže stránku `404.html`.
+
 ## Spuštění u sebe
 
 Stačí Git a Python 3 (nic dalšího se neinstaluje):
