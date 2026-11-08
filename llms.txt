@@ -14,3 +14,4 @@ Web má jednu stránku s těmito oddíly:
 
 Když adresa neexistuje, návštěvník uvidí stránku nenalezeno s odkazy na úvod a na oddíly výše.
 Telefon školní jídelny je 377 067 068.
+Nultá hodina 7:05–7:50 je jen pro volitelné předměty 2. stupně.
