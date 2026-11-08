@@ -13,3 +13,4 @@ Web má jednu stránku s těmito oddíly:
 - [Kontakt](https://kojdad-alt.github.io/67ZakladniSkola/#kontakt): Pavilonová 67, 323 00 Plzeň, tel. 377 067 067, kancelar@67zs.cz.
 
 Když adresa neexistuje, návštěvník uvidí stránku nenalezeno s odkazy na úvod a na oddíly výše.
+Telefon školní jídelny je 377 067 068.
