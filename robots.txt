@@ -1,3 +1,4 @@
+# Sitemap je v souboru sitemap.xml ve stejné složce.
 # Na GitHub Pages projektu (…github.io/67ZakladniSkola/) roboti čtou robots.txt jen z kořene domény.
 # Tenhle soubor začne platit, až bude web na vlastní doméně.
 User-agent: *
